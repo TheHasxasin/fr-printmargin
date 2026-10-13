@@ -1,0 +1,10 @@
+{
+  "name": "fr-printmargin",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/calculations.test.mjs",
+    "serve": "python -m http.server 8080"
+  }
+}

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ms" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="FR PrintMargin: kalkulator harga, saiz banner dan susun atur sticker untuk bisnes percetakan.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="FR PrintMargin">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+  <title>FR PrintMargin — Kalkulator Harga Printing</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><span>FR</span><i></i></div>
+        <div class="brand-text"><strong>PrintMargin<span class="dot">.</span></strong><small>FR DREAM RESOURCES</small></div>
+      </div>
+      <div class="topbar-actions">
+        <span class="connection" id="connection"><span class="status-dot"></span><span id="connection-text">Menyemak sambungan</span></span>
+        <button type="button" id="theme-toggle" class="icon-button" aria-label="Tukar tema" title="Tukar tema">☀</button>
+        <button type="button" id="backup-open" class="button button-secondary top-backup"><span class="btn-icon">⇅</span> Data & Backup</button>
+        <button type="button" id="install-button" class="button button-primary" hidden>+ Install App</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="sidebar" aria-label="Navigasi kalkulator">
+        <p class="sidebar-overline">KALKULATOR</p>
+        <nav class="module-nav" id="module-nav">
+          <button class="nav-item active" type="button" data-page="margin" aria-current="page"><span class="nav-icon">▦</span><span><strong>Margin & Harga</strong><small>Kos dan keuntungan</small></span><span class="nav-chevron">›</span></button>
+          <button class="nav-item" type="button" data-page="size"><span class="nav-icon">⌗</span><span><strong>Kalkulator Saiz</strong><small>Banner & bunting</small></span><span class="nav-chevron">›</span></button>
+          <button class="nav-item" type="button" data-page="sticker"><span class="nav-icon">▤</span><span><strong>Kalkulator Sticker</strong><small>Susun atur & kos</small></span><span class="nav-chevron">›</span></button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="tip-icon">✦</div>
+          <strong>Harga dengan yakin.</strong>
+          <p>Kira kos sebenar, pilih margin sasaran, dan tentukan harga jual tanpa teka-teki.</p>
+          <div class="side-rule"></div>
+          <button type="button" class="link-button" id="history-open-side">↗ Sejarah pengiraan</button>
+          <small>Versi 1.0 · Offline-first</small>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <div class="welcome-row">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-line"></span> WORKSPACE / <span id="breadcrumb">MARGIN & HARGA</span></div>
+            <h1 id="page-title">Kira harga dengan <em>tepat.</em></h1>
+            <p class="lead" id="page-description">Dari kos kilang hingga harga jual — semuanya dikira dalam satu tempat.</p>
+          </div>
+          <div class="welcome-actions">
+            <button class="button button-outline" id="preset-open" type="button">☆ Simpan Preset</button>
+            <button class="button button-secondary" id="presets-list-open" type="button">▤ Preset Saya <span class="mini-counter" id="preset-count">0</span></button>
+            <button class="button button-quiet" id="history-open" type="button">◷ Sejarah</button>
+          </div>
+        </div>
+
+        <section id="page-margin" class="page-panel active" aria-labelledby="margin-heading">
+          <div class="content-layout">
+            <div class="card form-card">
+              <div class="card-top"><div><span class="step">01 / KOS</span><h2 id="margin-heading">Butiran produk</h2><p>Masukkan semua kos yang berkaitan dengan tempahan.</p></div><div class="card-illustration">▦</div></div>
+              <form id="form-margin" autocomplete="off">
+                <div class="form-block">
+                  <label class="section-label">Jenis pengeluaran</label>
+                  <div class="segmented"><label><input type="radio" name="mode" value="outsource" checked><span>↗ Outsource Kilang</span></label><label><input type="radio" name="mode" value="inhouse"><span>⌂ Cetak Sendiri</span></label></div>
+                </div>
+                <div class="fields two">
+                  <label class="field"><span>Kuantiti tempahan <i class="required">*</i></span><div class="input-unit"><input name="qty" type="number" min="1" step="1" inputmode="numeric" required><b>pcs</b></div></label>
+                  <label class="field outsource-only"><span>Kos kilang / unit</span><div class="input-unit"><b>RM</b><input name="factory" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field inhouse-only" hidden><span>Kos material / unit</span><div class="input-unit"><b>RM</b><input name="material" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field inhouse-only" hidden><span>Kos dakwat / unit</span><div class="input-unit"><b>RM</b><input name="ink" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field inhouse-only" hidden><span>Mesin/elektrik / unit</span><div class="input-unit"><b>RM</b><input name="machine" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field"><span>Packaging / unit</span><div class="input-unit"><b>RM</b><input name="packaging" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field"><span>Penghantaran / tempahan</span><div class="input-unit"><b>RM</b><input name="delivery" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field"><span>Kos design/kerja / tempahan</span><div class="input-unit"><b>RM</b><input name="design" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field"><span>Overhead lain / tempahan</span><div class="input-unit"><b>RM</b><input name="overhead" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                </div>
+                <div class="form-divider"></div>
+                <div class="fields two">
+                  <label class="field"><span>Margin sasaran</span><div class="input-unit"><input name="target" type="number" min="0" max="95" step="1" inputmode="decimal"><b>%</b></div></label>
+                  <label class="field"><span>Bulatkan harga ke atas</span><select name="rounding"><option value="0.01">RM0.01</option><option value="0.05">RM0.05</option><option value="0.5">RM0.50</option><option value="1">RM1.00</option><option value="5">RM5.00</option></select></label>
+                  <label class="field span-two"><span>Harga jual pilihan sendiri <small>(opsyenal)</small></span><div class="input-unit"><b>RM</b><input name="manualPrice" type="number" min="0" step="any" inputmode="decimal" placeholder="Kosongkan untuk harga automatik"></div><small class="field-tip">Isi untuk lihat margin sebenar pada harga yang kau tetapkan.</small></label>
+                </div>
+              </form>
+            </div>
+            <div id="result-margin" class="result-col" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section id="page-size" class="page-panel" aria-labelledby="size-heading" hidden>
+          <div class="content-layout">
+            <div class="card form-card">
+              <div class="card-top"><div><span class="step">02 / DIMENSI</span><h2 id="size-heading">Kalkulator saiz</h2><p>Untuk banner, bunting, poster dan cetakan mengikut keluasan.</p></div><div class="card-illustration">⌗</div></div>
+              <form id="form-size" autocomplete="off">
+                <div class="fields three dimension-row">
+                  <label class="field"><span>Lebar</span><input name="width" type="number" min="0" step="any" inputmode="decimal"></label>
+                  <label class="field"><span>Tinggi / Panjang</span><input name="height" type="number" min="0" step="any" inputmode="decimal"></label>
+                  <label class="field"><span>Unit</span><select name="unit"><option value="ft">Kaki (ft)</option><option value="in">Inci</option><option value="cm">cm</option><option value="mm">mm</option><option value="m">Meter (m)</option></select></label>
+                </div>
+                <div class="dimension-help">✧ Luas akan ditukar secara automatik kepada kaki persegi (sqft).</div>
+                <div class="form-divider"></div>
+                <div class="fields two">
+                  <label class="field"><span>Kuantiti</span><div class="input-unit"><input name="qty" type="number" min="1" step="1" inputmode="numeric"><b>pcs</b></div></label>
+                  <label class="field"><span>Kadar kilang / sqft</span><div class="input-unit"><b>RM</b><input name="rate" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field"><span>Allowance material</span><div class="input-unit"><input name="waste" type="number" min="0" step="any" inputmode="decimal"><b>%</b></div></label>
+                  <label class="field"><span>Minimum caj luas / unit</span><div class="input-unit"><input name="minArea" type="number" min="0" step="any" inputmode="decimal"><b>sqft</b></div></label>
+                  <label class="field"><span>Pembundaran luas (ke atas)</span><select name="areaStep"><option value="0.01">0.01 sqft</option><option value="0.1">0.1 sqft</option><option value="0.5">0.5 sqft</option><option value="1">1 sqft</option></select></label>
+                  <label class="field"><span>Finishing / unit</span><div class="input-unit"><b>RM</b><input name="finishing" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field"><span>Delivery / tempahan</span><div class="input-unit"><b>RM</b><input name="delivery" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field"><span>Design / tempahan</span><div class="input-unit"><b>RM</b><input name="design" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                </div>
+                <div class="form-divider"></div>
+                <div class="fields two">
+                  <label class="field"><span>Margin sasaran</span><div class="input-unit"><input name="target" type="number" min="0" max="95" step="1" inputmode="decimal"><b>%</b></div></label>
+                  <label class="field"><span>Bulatkan harga jual</span><select name="rounding"><option value="0.01">RM0.01</option><option value="0.5">RM0.50</option><option value="1">RM1.00</option><option value="5">RM5.00</option></select></label>
+                </div>
+              </form>
+            </div>
+            <div id="result-size" class="result-col" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section id="page-sticker" class="page-panel" aria-labelledby="sticker-heading" hidden>
+          <div class="content-layout">
+            <div class="card form-card">
+              <div class="card-top"><div><span class="step">03 / LAYOUT</span><h2 id="sticker-heading">Kalkulator sticker</h2><p>Cari jumlah keping sticker yang muat atas setiap helaian.</p></div><div class="card-illustration">▤</div></div>
+              <form id="form-sticker" autocomplete="off">
+                <label class="section-label" for="sticker-paper">Jenis kertas / material</label>
+                <div class="fields two">
+                  <label class="field span-two"><select name="paper" id="sticker-paper"><option value="A4">A4 — 210 × 297 mm</option><option value="A3">A3 — 297 × 420 mm</option><option value="A5">A5 — 148 × 210 mm</option><option value="SRA3">SRA3 — 320 × 450 mm</option><option value="custom">Saiz Custom</option></select></label>
+                  <label class="field paper-custom" hidden><span>Lebar kertas (mm)</span><input name="paperWidth" type="number" min="0" step="any" inputmode="decimal"></label>
+                  <label class="field paper-custom" hidden><span>Tinggi kertas (mm)</span><input name="paperHeight" type="number" min="0" step="any" inputmode="decimal"></label>
+                </div>
+                <div class="form-divider"></div>
+                <label class="section-label">Bentuk sticker</label>
+                <div class="segmented"><label><input type="radio" name="shape" value="rect" checked><span>▭ Segi empat</span></label><label><input type="radio" name="shape" value="circle"><span>◯ Bulat</span></label></div>
+                <div class="fields two top-spacing">
+                  <label class="field"><span id="sticker-width-label">Lebar sticker</span><div class="input-unit"><input name="stickerWidth" type="number" min="0" step="any" inputmode="decimal"><b>mm</b></div></label>
+                  <label class="field sticker-height-field"><span>Tinggi sticker</span><div class="input-unit"><input name="stickerHeight" type="number" min="0" step="any" inputmode="decimal"><b>mm</b></div></label>
+                  <label class="field"><span>Margin tepi kertas</span><div class="input-unit"><input name="margin" type="number" min="0" step="any" inputmode="decimal"><b>mm</b></div></label>
+                  <label class="field"><span>Jarak antara potongan</span><div class="input-unit"><input name="gap" type="number" min="0" step="any" inputmode="decimal"><b>mm</b></div></label>
+                  <label class="field"><span>Bleed setiap sisi</span><div class="input-unit"><input name="bleed" type="number" min="0" step="any" inputmode="decimal"><b>mm</b></div></label>
+                  <label class="field"><span>Kuantiti pelanggan</span><div class="input-unit"><input name="qty" type="number" min="1" step="1" inputmode="numeric"><b>pcs</b></div></label>
+                  <label class="field span-two"><span>Tambahan untuk reject / rosak</span><div class="input-unit"><input name="reserve" type="number" min="0" step="any" inputmode="decimal"><b>%</b></div><small class="field-tip">Sistem cetak unit tambahan sebagai allowance, tetapi jual ikut kuantiti pelanggan.</small></label>
+                </div>
+                <div class="form-divider"></div>
+                <label class="section-label">Kos pengeluaran</label>
+                <div class="fields two">
+                  <label class="field"><span>Material / sheet</span><div class="input-unit"><b>RM</b><input name="paperCost" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field"><span>Dakwat / sheet</span><div class="input-unit"><b>RM</b><input name="inkCost" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field"><span>Laminate / sheet</span><div class="input-unit"><b>RM</b><input name="laminateCost" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field"><span>Cutting / sheet</span><div class="input-unit"><b>RM</b><input name="cutCost" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                  <label class="field span-two"><span>Setup / design / order</span><div class="input-unit"><b>RM</b><input name="setupCost" type="number" min="0" step="any" inputmode="decimal"></div></label>
+                </div>
+                <div class="form-divider"></div>
+                <div class="fields two">
+                  <label class="field"><span>Margin sasaran</span><div class="input-unit"><input name="target" type="number" min="0" max="95" step="1" inputmode="decimal"><b>%</b></div></label>
+                  <label class="field"><span>Bulatkan harga jual</span><select name="rounding"><option value="0.01">RM0.01</option><option value="0.05">RM0.05</option><option value="0.1">RM0.10</option><option value="0.5">RM0.50</option><option value="1">RM1.00</option></select></label>
+                </div>
+              </form>
+            </div>
+            <div id="result-sticker" class="result-col" aria-live="polite"></div>
+          </div>
+        </section>
+        <footer class="footer"><span>© FR Dream Resources · FR PrintMargin v1.0</span><span>Semua pengiraan adalah anggaran berdasarkan kos yang dimasukkan.</span></footer>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="preset-save-dialog" class="modal"><form method="dialog" id="preset-save-form"><div class="modal-head"><h2>Simpan Preset</h2><button class="close-button" type="button" data-close aria-label="Tutup">×</button></div><p>Simpan tetapan pengiraan supaya boleh digunakan semula.</p><label class="field"><span>Nama preset</span><input id="preset-name" maxlength="80" required placeholder="Contoh: Banner kilang 280gsm"></label><div class="modal-actions"><button type="button" class="button button-secondary" data-close>Batal</button><button type="submit" class="button button-primary">Simpan Preset</button></div></form></dialog>
+  <dialog id="presets-dialog" class="modal modal-wide"><div class="modal-head"><h2>Preset Saya</h2><button class="close-button" type="button" data-close aria-label="Tutup">×</button></div><p>Preset disimpan di dalam peranti ini sahaja.</p><div id="presets-list" class="saved-list"></div></dialog>
+  <dialog id="history-dialog" class="modal modal-wide"><div class="modal-head"><h2>Sejarah Pengiraan</h2><button class="close-button" type="button" data-close aria-label="Tutup">×</button></div><p>Sejarah maksimum 80 pengiraan yang kau simpan.</p><div id="history-list" class="saved-list"></div></dialog>
+  <dialog id="backup-dialog" class="modal modal-wide"><div class="modal-head"><h2>Data & Backup</h2><button class="close-button" type="button" data-close aria-label="Tutup">×</button></div><p>Eksport data ke fail JSON dan import semula jika bertukar telefon atau PC.</p><div class="backup-options"><button type="button" id="export-data" class="button button-primary">↓ Export Backup JSON</button><button type="button" id="import-data" class="button button-secondary">↑ Import Backup JSON</button><input id="import-file" type="file" accept="application/json,.json" hidden></div><div class="notice"><strong>Privasi:</strong> data pengiraan dan preset disimpan pada peranti. Jangan padam data browser tanpa membuat backup dahulu. Import akan menggantikan data sedia ada.</div></dialog>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

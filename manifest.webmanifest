@@ -1,0 +1,18 @@
+{
+  "name": "FR PrintMargin — Kalkulator Harga Printing",
+  "short_name": "FR PrintMargin",
+  "description": "Kalkulator margin, saiz banner dan susun atur sticker oleh FR Dream Resources.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#0a1020",
+  "theme_color": "#0a1020",
+  "lang": "ms-MY",
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
