@@ -1,6 +1,6 @@
 // Offline application shell cache. Increment version when deploying changes.
-const CACHE_NAME='fr-printmargin-v1.0.0';
-const APP_SHELL=['./','./index.html','./styles.css','./app.js','./math.js','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
+const CACHE_NAME='fr-printmargin-v1.1.0';
+const APP_SHELL=['./','./index.html','./styles.css?v=1.1.0','./app.js?v=1.1.0','./math.js','./manifest.webmanifest','./icons/app-icon-v11-192.png','./icons/app-icon-v11-512.png','./icons/app-icon-v11-180.png','./icons/app-icon-v11-32.png'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)).then(()=>self.skipWaiting()));
 });

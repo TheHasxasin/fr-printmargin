@@ -13,7 +13,7 @@ const MODULES = {
 const $ = (q,root=document) => root.querySelector(q);
 const $$ = (q,root=document) => [...root.querySelectorAll(q)];
 const deepCopy = x => JSON.parse(JSON.stringify(x));
-const makeDefault = () => ({ version:1,page:'margin',theme:'dark',forms:deepCopy(DEFAULTS),presets:[],history:[] });
+const makeDefault = () => ({ version:1,page:'margin',theme:'light',forms:deepCopy(DEFAULTS),presets:[],history:[] });
 let app = makeDefault();
 let database = null;
 let fallbackStore = false;
@@ -52,7 +52,7 @@ function validateImported(raw){
     }
   }
   clean.page=Object.hasOwn(MODULES,raw.page)?raw.page:'margin';
-  clean.theme=raw.theme==='light'?'light':'dark';
+  clean.theme='light'; // Versi 1.1 menggunakan tema Soft Pastel sahaja.
   clean.presets=Array.isArray(raw.presets)?raw.presets.slice(0,200).filter(p=>p && Object.hasOwn(MODULES,p.module) && p.values && typeof p.values==='object' && typeof p.name==='string').map(p=>({id:String(p.id||crypto.randomUUID()),name:p.name.slice(0,80),module:p.module,values:p.values,createdAt:p.createdAt||new Date().toISOString()})):[];
   clean.history=Array.isArray(raw.history)?raw.history.slice(0,80).filter(h=>h && Object.hasOwn(MODULES,h.module) && h.values && typeof h.values==='object').map(h=>({id:String(h.id||crypto.randomUUID()),module:h.module,summary:String(h.summary||'Pengiraan').slice(0,140),values:h.values,createdAt:h.createdAt||new Date().toISOString()})):[];
   return clean;
@@ -166,9 +166,9 @@ function stickerPreview(r){
     const x=r.margin+col*(r.tileW+r.gap),y=r.margin+row*(r.tileH+r.gap);
     if(r.isCircle){
       const radius=r.width/2;
-      tiles.push(`<circle cx="${x+r.tileW/2}" cy="${y+r.tileH/2}" r="${radius}" fill="#83ded7" fill-opacity=".78" stroke="#138b88" stroke-width="${strokeWidth}"/>`);
+      tiles.push(`<circle cx="${x+r.tileW/2}" cy="${y+r.tileH/2}" r="${radius}" fill="#ADDBF9" fill-opacity=".78" stroke="#7866DA" stroke-width="${strokeWidth}"/>`);
     } else {
-      tiles.push(`<rect x="${x+r.bleed}" y="${y+r.bleed}" width="${Math.max(0,r.tileW-2*r.bleed)}" height="${Math.max(0,r.tileH-2*r.bleed)}" rx="${Math.min(r.width,r.height)*.045}" fill="#83ded7" fill-opacity=".78" stroke="#138b88" stroke-width="${strokeWidth}"/>`);
+      tiles.push(`<rect x="${x+r.bleed}" y="${y+r.bleed}" width="${Math.max(0,r.tileW-2*r.bleed)}" height="${Math.max(0,r.tileH-2*r.bleed)}" rx="${Math.min(r.width,r.height)*.045}" fill="#ADDBF9" fill-opacity=".78" stroke="#7866DA" stroke-width="${strokeWidth}"/>`);
     }
   }
   const svg=`<svg role="img" aria-label="Susunan ${r.perSheet} sticker pada kertas" viewBox="0 0 ${r.paperW} ${r.paperH}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"><rect width="${r.paperW}" height="${r.paperH}" rx="2" fill="#f2f6f9"/><rect x="${r.margin}" y="${r.margin}" width="${r.usableW}" height="${r.usableH}" fill="#f4f8fa" stroke="#9aa9bb" stroke-dasharray="2 2" stroke-width="${strokeWidth}"/>${tiles.join('')}</svg>`;
@@ -242,9 +242,9 @@ function renderSavedList(type){
   });
 }
 function applyTheme(){
-  document.documentElement.dataset.theme=app.theme;
-  $('#theme-toggle').textContent=app.theme==='dark'?'☀':'☾';
-  $('meta[name="theme-color"]').content=app.theme==='dark'?'#0a1020':'#f2f6fc';
+  app.theme='light';
+  document.documentElement.dataset.theme='light';
+  $('meta[name="theme-color"]').content='#F8F7FF';
 }
 function updateConnectivity(){
   const offline=!navigator.onLine;
@@ -303,7 +303,6 @@ function wireEvents(){
   $('#import-data').onclick=()=>$('#import-file').click();
   $('#import-file').onchange=async e=>{await importBackup(e.target.files?.[0]);e.target.value='';};
   $$('[data-close]').forEach(btn=>btn.addEventListener('click',()=>btn.closest('dialog').close()));
-  $('#theme-toggle').onclick=()=>{app.theme=app.theme==='dark'?'light':'dark';applyTheme();scheduleSave();};
   window.addEventListener('online',updateConnectivity);window.addEventListener('offline',updateConnectivity);
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('#install-button').hidden=false;});
   $('#install-button').onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$('#install-button').hidden=true;};
